@@ -1,0 +1,94 @@
+<link rel="import" href="../components/polymer/polymer.html">
+<link rel="import" href="../components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../components/paper-input/paper-input-container.html">
+<link rel="import" href="../components/iron-input/iron-input.html">
+
+<dom-module id="mooc-event-inlist">
+    <template>
+        <style>
+            #eventInList {
+                position:relative;
+                float:left;
+                clear:none;
+                overflow:hidden;
+            }
+            .large {
+                font-size: 2.3em;
+                width:400px;
+                height:400px;
+            }
+
+            .large  #eventDate {
+                font-size: 0.5em;
+            }
+            .medium {
+                font-size: 1.5em;
+                width:200px;
+                height:200px;
+            }
+
+            .medium  #eventDate {
+                font-size: 0.8em;
+            }
+            .small {
+                font-size: 0.8em;
+                width:100px;
+                height:100px;
+            }
+
+            .small  #eventDate {
+                font-size: 0.5em;
+            }
+
+            #eventImg {
+                z-index:1;
+            }
+
+
+            #eventDescription {
+                display:block;
+                position:absolute;
+                color:white;
+                width:100%;
+                top:5%;
+                left:5%;
+                z-index:2;
+            }
+
+        </style>
+        <div id="eventInList" class="[[eventSize]]">
+            <div id="eventImg" ><img id="image" class="[[eventSize]]" src="[[event.img]]"/></div>
+            <div id="eventDescription">
+                <div id="eventLabel" >[[event.title]]</div>
+                <div id="eventDate">[[event.date]]</div>
+            </div>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            is: 'mooc-event-inlist',
+
+            properties: {
+                event: {
+                    type: String
+                },
+                eventsize: {
+                    type: String
+                }
+            },
+
+            ready: function() {
+                try{
+                    this.event= JSON.parse(this.event);
+                }catch(e){
+                    console.log("Error "+e+ "parsing JSON string :"+this.event);
+                }
+
+                this.$.eventInList.classList.add(this.eventsize);
+                this.$.image.classList.add(this.eventsize);
+
+            }
+
+        });
+    </script>
+</dom-module>

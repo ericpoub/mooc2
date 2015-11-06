@@ -1,0 +1,83 @@
+<link rel="import" href="../components/polymer/polymer.html">
+<link rel="import" href="../components/paper-checkbox/paper-checkbox.html">
+
+<dom-module id="mooc-category">
+    <template>
+        <style>
+            #category{
+                margin-top: 5px;
+                margin-bottom: 10px;
+
+                padding-top: 5px;
+                padding-bottom: 5px;
+                padding-left: 30px;
+                padding-right: 10px;
+
+            }
+
+            #categoryLabel {
+                font-weight: bold;
+                width: 150px;
+                margin-bottom : 20px;
+            }
+        </style>
+        <div id="category">
+            <div id="categoryLabel" >Catégories</div>
+            <div id="cateoryLabel">
+                <paper-checkbox id="cbAll"  checked>Tous</paper-checkbox><br/>
+                <paper-checkbox id="cbCon" >Concerts</paper-checkbox><br/>
+                <paper-checkbox id="cbFes">Festivals</paper-checkbox><br/>
+                <paper-checkbox id="cbCom" >Comédie</paper-checkbox><br/>
+                <paper-checkbox id="cbFam">Famille</paper-checkbox><br/>
+            </div>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            is: 'mooc-category',
+            public: {
+                isAll : function() {
+                    return this.$.cbAll.checked;
+                }
+            },
+            listeners: {
+                'cbAll.tap': 'removeOthers',
+                'cbCon.tap': 'removeAll',
+                'cbFes.tap': 'removeAll',
+                'cbCom.tap': 'removeAll',
+                'cbFam.tap': 'removeAll',
+            },
+            properties: {
+                show: {
+                    type: Boolean,
+                    value: false
+                },
+                searchInput: {
+                    type: String,
+                    value: ''
+                }
+
+            },
+
+            removeOthers: function(e) {
+                if(this.$.cbAll.checked) {
+                    this.$.cbCon.checked=false;
+                    this.$.cbFes.checked=false;
+                    this.$.cbCom.checked=false;
+                    this.$.cbFam.checked=false;
+                    this.fire('onCategoryChanged',{'selection':'ALL'});
+                }
+                else {
+                    this.fire('onCategoryChanged', {'selection': 'NOTALL'});
+                }
+            },
+            removeAll: function(e) {
+                if (this.$.cbAll.checked) {
+                    this.$.cbAll.checked=false;
+                }
+                this.fire('onCategoryChanged',{'selection':'NOTALL'});
+            }
+
+        });
+    </script>
+</dom-module>

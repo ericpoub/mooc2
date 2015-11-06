@@ -1,0 +1,72 @@
+<script src="../lib/masonry.pkgd.js"></script>
+<link rel="import" href="../components/polymer/polymer.html">
+<link rel="import" href="./mooc-event-inlist.html">
+
+<dom-module id="mooc-event-list">
+    <template>
+        <style>
+
+            #eventList {
+                float: left;
+            }
+
+        .event {
+            width:  100px;
+            height: 100px;
+            float: left;
+            background: #2296DD;
+            border: 2px solid #333;
+        }
+
+        .event.small {
+            width:  50px;
+            height: 50px;
+            background: #cfcfcf
+        }
+
+        .event.medium {
+            width:  200px;
+            height: 200px;
+            background: #A6E392
+        }
+
+        .event.large {
+            width:  400px;
+            height: 400px;
+            background: #D092E3
+        }
+
+        </style>
+        <div id="eventList">
+            <div class="grid js-masonry"
+                 data-masonry-options='{ "itemSelector": ".grid-item"}'>
+                <mooc-event-inlist event='{"title":"Opéra de Paris","date":"02/05/2015","img":"./img/default-event.png"}' eventsize='large'></mooc-event-inlist>
+                <mooc-event-inlist event='{"title":"Opéra de Paris","date":"02/05/2015","img":"./img/default-event.png"}' eventsize='small'></mooc-event-inlist>
+                <mooc-event-inlist event='{"title":"Opéra de Paris","date":"02/05/2015","img":"./img/default-event.png"}' eventsize='medium'></mooc-event-inlist>
+
+
+            </div>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            is: 'mooc-event-list',
+
+            properties: {
+                events: {
+                    type: String
+                }
+            },
+
+            ready: function() {
+                try{
+                    this.event= JSON.parse(this.event);
+                }catch(e){
+                    console.log("Error "+e+ "parsing JSON string :"+this.event);
+                }
+
+            }
+
+        });
+    </script>
+</dom-module>

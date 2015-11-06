@@ -1,0 +1,18 @@
+@import url("roboto-condensed.css");
+
+body {
+    font-family : "Roboto Condensed";
+    font-size:120%;
+}
+.main-page {
+    display: flex;
+}
+
+.left-pane {
+    display: inline-block;
+}
+
+.center-pane {
+    display: inline-block;
+    float:left;
+}

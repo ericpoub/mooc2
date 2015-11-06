@@ -1,0 +1,42 @@
+<link rel="import" href="../components/polymer/polymer.html">
+<link rel="import" href="../components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../components/paper-input/paper-input-container.html">
+<link rel="import" href="../components/iron-input/iron-input.html">
+
+<dom-module id="mooc-event-highlight">
+    <template>
+        <style>
+            #eventHighlight {
+                font-size: 0.7em;
+            }
+        </style>
+        <div id="eventHighlight">
+
+            <div id="eventImg"><a onclick="MoreRouting.navigateTo('eventDetails');"><img src="[[event.img]]"/></a></div>
+            <div id="eventLabel" >[[event.title]]</div>
+            <div id="eventDate">[[event.date]]</div>
+
+        </div>
+    </template>
+    <script>
+        Polymer({
+            is: 'mooc-event-highlight',
+
+            properties: {
+                event: {
+                    type: String
+                }
+            },
+
+            ready: function() {
+                try{
+                    this.event= JSON.parse(this.event);
+                }catch(e){
+                    console.log("Error "+e+ "parsing JSON string :"+this.event);
+                }
+
+            }
+
+        });
+    </script>
+</dom-module>

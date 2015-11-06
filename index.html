@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+
+    <!--CSS-->
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+
+    <!--Polymer-->
+    <script src="components/webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="components/polymer/polymer.html">
+    <link rel="import" href="components/iron-icons/iron-icons.html"> <!-- workaround for defect https://github.com/PolymerElements/iron-icon/issues/19 -->
+    <link rel="import" href="components/iron-pages/iron-pages.html">
+
+
+    <!-- Mooc components -->
+    <link rel="import" href="modules/mooc-status.html">
+    <link rel="import" href="modules/mooc-search.html">
+    <link rel="import" href="modules/mooc-category.html">
+    <link rel="import" href="modules/mooc-highlight.html">
+    <link rel="import" href="modules/mooc-event-list.html">
+
+    <link rel="import" href="pages/mooc-header.html">
+    <link rel="import" href="pages/mooc-page-header.html">
+
+    <link rel="import" href="pages/mooc-page-eventList.html"
+
+
+    <!--Routing more-route-->
+    <link rel="import" href="components/more-routing/more-route-selector.html">
+    <link rel="import" href="routes.html">
+
+    <title>Valtech MOOC</title>
+</head>
+<body>
+
+    <mooc-header></mooc-header>
+    <mooc-page-header previous="true">Liste des événements</mooc-page-header>
+    <mooc-search></mooc-search>
+
+    <mooc-page-eventList></mooc-page-eventList>
+
+    <!--
+    <more-route-selector id="mainPageSelector">
+        <iron-pages>
+            <section route="/" >
+               index
+            </section>
+            <section route="home" >
+               <mooc-page-eventList></mooc-page-eventList>
+            </section>
+            <section route="eventDetails" >
+              <mooc-page-eventDetails></mooc-page-eventDetails>
+            </section>
+        </iron-pages>
+    </more-route-selector>
+-->
+
+</body>
+</html>

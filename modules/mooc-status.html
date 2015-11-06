@@ -1,0 +1,43 @@
+<dom-module id="mooc-status">
+    <style>
+      span  {
+          border-radius: 10px;
+          padding: 7px;
+          background: #8AC007;
+      }
+      .newStatus {
+          background: yellow;
+        }
+      .highlightStatus {
+          background: red;
+      }
+
+      .oldStatus {
+          background: grey;
+      }
+
+    </style>
+    <template>
+        <span id="moocStatusWrapper"><content></content></span>
+    </template>
+    <script>
+        var Mooc= Mooc || {};
+        Mooc.status =Mooc.status || {};
+        Mooc.status.KEYS={"New":"newStatus","Highlight":"highlightStatus","Old":"oldStatus"};
+        Polymer({
+            is:"mooc-status",
+            properties: {
+              status : { type:String}
+            },
+            ready: function() {
+                var statusClass = Mooc.status.KEYS[this.status];
+                if (!statusClass) {
+                    console.log("Unknown status : "+status);
+                    statusClass=Mooc.status.KEYS["Old"]; // par défaut Old
+                }
+                console.log(this.$.moocStatusWrapper.className);
+                this.$.moocStatusWrapper.className=statusClass+" "+this.$.moocStatusWrapper.className;
+            }
+        })
+    </script>
+</dom-module>

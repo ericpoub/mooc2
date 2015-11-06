@@ -1,0 +1,35 @@
+<link rel="import" href="../components/polymer/polymer.html">
+<link rel="import" href="../components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../components/paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="../components/iron-input/iron-input.html">
+<link rel="import" href="../modules/mooc-search.html">
+
+<dom-module id="mooc-header">
+    <template>
+        <style>
+            #header {
+                position: relative;
+                overflow: hidden;
+                padding: 5px;
+            }
+            #logo {
+                text-align:left;
+            }
+            #connexion-panel {
+                float:right;
+            }
+            .left-label {
+                padding-right:20px;
+            }
+        </style>
+        <header id="header" >
+            <a href="http://www.valtech.com"><img src="../img/logo.png" /></a>
+            <div id="connexion-panel"><span class="left-label">Connexion</span><paper-toggle-button></paper-toggle-button></div>
+        </header>
+    </template>
+    <script>
+        Polymer({
+            is: 'mooc-header',
+        });
+    </script>
+</dom-module>

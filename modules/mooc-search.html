@@ -1,0 +1,93 @@
+<link rel="import" href="../components/polymer/polymer.html">
+<link rel="import" href="../components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../components/paper-input/paper-input-container.html">
+<link rel="import" href="../components/iron-input/iron-input.html">
+
+<dom-module id="mooc-search">
+    <template>
+        <style>
+            #search{
+                margin-top: 20px;
+                margin-bottom: 20px;
+
+                padding-top: 5px;
+                padding-bottom: 5px;
+                padding-left: 30px;
+                padding-right: 30px;
+
+                border-top-style: solid;
+                border-bottom-style: solid;
+                border-color: #D9D9D9;
+                border-width: 1px;
+
+                display:inline-block;
+                overflow: hidden;
+
+                width:100%;
+
+            }
+
+            #searchLabel {
+                float: left;
+                width: 150px;
+            }
+            #searchFields {
+                width:80%;
+                float: left;
+                transform: translate(25%,-25%);
+
+            }
+
+           #searchNom, #searchLieu {
+                float: left;
+                padding: 5px;
+            }
+
+            #searchAction {
+                float: left;
+                border-left:100px;
+                position: relative;
+                transform: translateY(25%);
+            }
+
+            #searchNom{
+                width:10em;
+            }
+
+            #searchLieu{
+                width:10em;
+            }
+
+        </style>
+        <div id="search">
+            <div id="searchLabel" >Rechercher <br/>un évènement</div>
+            <div id="searchFields">
+                <paper-input-container id="searchNom">
+                    <label>Nom:</label>
+                    <input is="iron-input" >
+                </paper-input-container>
+                <paper-input-container id="searchLieu">
+                    <label>Lieu:</label>
+                    <input is="iron-input" >
+                </paper-input-container>
+            </div>
+            <paper-icon-button id="searchAction" icon="search"></paper-icon-button>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            is: 'mooc-search',
+
+            properties: {
+                show: {
+                    type: Boolean,
+                    value: false
+                },
+                searchInput: {
+                    type: String,
+                    value: ''
+                }
+            }
+        });
+    </script>
+</dom-module>

@@ -1,0 +1,35 @@
+<link rel="import" href="../components/polymer/polymer.html">
+<link rel="import" href="../components/iron-input/iron-input.html">
+
+<link rel="import" href="../modules/mooc-category.html">
+<link rel="import" href="../modules/mooc-highlight.html">
+<link rel="import" href="../modules/mooc-event-list.html">
+
+
+<dom-module id="mooc-page-eventList">
+    <template>
+        <style >
+
+        </style>
+        <div class="main-page">
+            <div class="left-pane">
+                <mooc-category id="category"></mooc-category>
+                <mooc-highlight></mooc-highlight>
+            </div>
+            <div class="center-pane">
+                <mooc-event-list></mooc-event-list>
+            </div>
+    </template>
+    <script>
+        Polymer({
+            is: 'mooc-page-eventList',
+            ready : function() {
+                this.$.category.addEventListener('onCategoryChanged', this.catChanged);
+            },
+            catChanged: function(event) {
+                console.log(event.detail.selection);
+
+            }
+        });
+    </script>
+</dom-module>

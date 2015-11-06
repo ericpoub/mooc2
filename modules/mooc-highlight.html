@@ -1,0 +1,40 @@
+<link rel="import" href="../components/polymer/polymer.html">
+<link rel="import" href="../components/paper-checkbox/paper-checkbox.html">
+
+<link rel="import" href="./mooc-event-highlight.html">
+
+<dom-module id="mooc-highlight">
+    <template>
+        <style>
+            #highlights{
+                margin-top: 5px;
+                margin-bottom: 10px;
+
+                padding-top: 5px;
+                padding-bottom: 5px;
+                padding-left: 30px;
+                padding-right: 10px;
+
+            }
+
+            #highlightLabel {
+                font-weight: bold;
+                width: 150px;
+                margin-bottom : 20px;
+            }
+        </style>
+        <div id="highlights">
+            <div id="highlightLabel" >En ce moment...</div>
+            <div id="highlightsValues">
+                <mooc-event-highlight event='{"title":"Fashion mix","date":"02/05/2015","img":"./img/default-event.png"}'></mooc-event-highlight><br/>
+                <mooc-event-highlight event='{"title":"Exposition","date":"02/05/2015","img":"./img/default-event.png"}'"></mooc-event-highlight><br/>
+                <mooc-event-highlight event='{"title":"Exposition","date":"02/05/2015","img":"./img/default-event.png"}'></mooc-event-highlight><br/>
+            </div>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            is: 'mooc-highlight'
+        });
+    </script>
+</dom-module>

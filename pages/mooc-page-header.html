@@ -1,0 +1,33 @@
+<link rel="import" href="../components/polymer/polymer.html">
+<link rel="import" href="../components/iron-input/iron-input.html">
+<link rel="import" href="../components/more-routing/more-routing.html">
+
+<dom-module id="mooc-page-header">
+    <template>
+        <style >
+            #pageHeaderPrevious {
+                position: relative;
+                overflow: hidden;
+                padding: 5px;
+                margin-top:20px;
+            }
+
+            #pageHeaderLabel {
+                text-align:left;
+                font-size:250%;
+            }
+
+
+
+        </style>
+        <header id="pageHeader" >
+            <paper-icon-button id="pageHeaderPrevious"  icon="chevron-left" onclick="MoreRouting.navigateTo('home');"></paper-icon-button>
+            <span id="pageHeaderLabel" ><content></content></span>
+        </header>
+    </template>
+    <script>
+        Polymer({
+            is: 'mooc-page-header',
+        });
+    </script>
+</dom-module>
