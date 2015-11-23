@@ -64,14 +64,14 @@
             <div id="searchFields">
                 <paper-input-container id="searchNom">
                     <label>Nom:</label>
-                    <input is="iron-input" >
+                    <input is="iron-input" bind-value="{{criteria.nom}}" >
                 </paper-input-container>
                 <paper-input-container id="searchLieu">
                     <label>Lieu:</label>
-                    <input is="iron-input" >
+                    <input is="iron-input" bind-value="{{criteria.lieu}}" >
                 </paper-input-container>
             </div>
-            <paper-icon-button id="searchAction" icon="search"></paper-icon-button>
+            <paper-icon-button id="searchAction" icon="search" on-click="search"></paper-icon-button>
         </div>
     </template>
     <script>
@@ -83,10 +83,22 @@
                     type: Boolean,
                     value: false
                 },
-                searchInput: {
+                searchNom: {
                     type: String,
                     value: ''
+                },
+                searchLieu: {
+                    type: String,
+                    value: ''
+                },
+                criteria :{
+                    type:Object,
+                    value : {nom:"",lieu:""}
                 }
+            },
+
+            search: function() {
+                this.fire('onSearchChanged',this.criteria);
             }
         });
     </script>

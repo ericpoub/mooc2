@@ -23,22 +23,34 @@
     <link rel="import" href="pages/mooc-header.html">
     <link rel="import" href="pages/mooc-page-header.html">
 
-    <link rel="import" href="pages/mooc-page-eventList.html"
+    <link rel="import" href="pages/mooc-page-eventList.html">
 
 
     <!--Routing more-route-->
     <link rel="import" href="components/more-routing/more-route-selector.html">
     <link rel="import" href="routes.html">
 
+    <!--REST calls-->
+    <link rel=import" href="api.html">
+
     <title>Valtech MOOC</title>
 </head>
-<body>
+<body onload="loadData()">
+    <events-service id="api"></events-service>
 
     <mooc-header></mooc-header>
-    <mooc-page-header previous="true">Liste des événements</mooc-page-header>
-    <mooc-search></mooc-search>
+    <mooc-page-header showPrevious="true" >Liste des événements</mooc-page-header>
+
 
     <mooc-page-eventList></mooc-page-eventList>
+
+    <script>
+        function loadData() {
+            console.log(document.getElementById("api"));
+            document.getElementById("api").loadEvents();
+            console.log(this.events-service.events.length);
+        }
+    </script>
 
     <!--
     <more-route-selector id="mainPageSelector">

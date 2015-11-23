@@ -11,25 +11,91 @@
         <style >
 
         </style>
+        <mooc-search id="searchPane"></mooc-search>
         <div class="main-page">
             <div class="left-pane">
                 <mooc-category id="category"></mooc-category>
                 <mooc-highlight></mooc-highlight>
             </div>
             <div class="center-pane">
-                <mooc-event-list></mooc-event-list>
+                <mooc-event-list id="eventList"></mooc-event-list>
             </div>
+        </div>
     </template>
     <script>
         Polymer({
             is: 'mooc-page-eventList',
             ready : function() {
-                this.$.category.addEventListener('onCategoryChanged', this.catChanged);
-            },
-            catChanged: function(event) {
-                console.log(event.detail.selection);
+                var that=this;
+                this.$.category.addEventListener('onCategoryChanged', function(event) {
+                    that.$.eventList.setValues(that.filterEvents(event.detail.selection,that.$.searchPane.criteria));
+                });
+                this.$.searchPane.addEventListener('onSearchChanged', function(event) {
+                    that.$.eventList.setValues(that.filterEvents(that.$.category.createSelectionObject(),that.$.searchPane.criteria));
+                });
 
-            }
+                //set all events on display
+                this.$.eventList.setValues(this.ALL_EVENTS);
+            },
+
+            filterEvents: function(categories,searchCriteria) {
+                result = [];
+                for(var event in this.ALL_EVENTS) {
+                    var currEvent=this.ALL_EVENTS[event];
+
+                    if (this.isEventOnCategory(currEvent,categories) && this.isEventOnSearch(currEvent,searchCriteria))
+                    {
+                        result.push(currEvent);
+                    }
+                }
+                return result;
+            },
+
+            isEventOnCategory : function(event,category) {
+                if (! event.category ) { return category.ALL; }
+                if (category.ALL) { return true;}
+
+                if (event.category == "CON" && category.CON) {return true; }
+                if (event.category == "FES" && category.FES) {return true; }
+                if (event.category == "COM" && category.COM) {return true; }
+                if (event.category == "FAM" && category.FAM) {return true; }
+                return false;
+            },
+            isEventOnSearch: function(event,searchCriteria) {
+                var ok = true;
+                if (!searchCriteria) return true;
+                if ( searchCriteria.nom && !(0===searchCriteria.nom.trim().length)  ) {
+                    ok =this.match(searchCriteria.nom,event.title);
+
+                }
+                if (!ok) return false;
+                if ( searchCriteria.lieu && !(0===searchCriteria.lieu.trim().length)  ) {
+                    ok = this.match(searchCriteria.lieu,event.lieu);
+                }
+                if (!ok) return false;
+                return true;
+            },
+
+            match : function(subStr, mainStr) {
+                console.log("Search :"+subStr+" into "+mainStr);
+                if (!subStr || !mainStr) return false;
+                return mainStr.toLowerCase().indexOf(subStr.toLowerCase()) > -1;
+            },
+
+
+
+            ALL_EVENTS : [
+                {"title":"Opéra de Paris",category:"CON", "date":"02/05/2015","img":"./img/default-event.png"},
+                {"title":"Summer Festival",category:"FES", "date":"02/05/2015","img":"./img/default-event.png"},
+                {"title":"Canteloup sort du bois",category:"COM", "date":"02/05/2015","img":"./img/default-event.png"},
+                {"title":"PETER PAN",category:"FAM", "date":"02/05/2015","img":"./img/default-event.png"},
+                {"title":"UNCATOGORIZED", "date":"02/05/2015","img":"./img/default-event.png"},
+                {"title":"UNCATOGORIZED", "date":"02/05/2015","img":"./img/default-event.png"},
+                {"title":"UNCATOGORIZED", "date":"02/05/2015","img":"./img/default-event.png"},
+                {"title":"UNCATOGORIZED", "date":"02/05/2015","img":"./img/default-event.png"}
+
+            ]
+
         });
     </script>
 </dom-module>

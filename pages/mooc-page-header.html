@@ -28,6 +28,16 @@
     <script>
         Polymer({
             is: 'mooc-page-header',
+            properties: {
+                showPrevious: {
+                    type: Boolean
+                }
+            },
+            ready : function() {
+                if ( ! this.showPrevious) {
+                    this.$.pageHeaderPrevious.hidden=true;
+                }
+            },
         });
     </script>
 </dom-module>

@@ -65,18 +65,29 @@
                     this.$.cbFes.checked=false;
                     this.$.cbCom.checked=false;
                     this.$.cbFam.checked=false;
-                    this.fire('onCategoryChanged',{'selection':'ALL'});
+                    this.fire('onCategoryChanged',{'selection':this.createSelectionObject()});
                 }
                 else {
-                    this.fire('onCategoryChanged', {'selection': 'NOTALL'});
+                    this.fire('onCategoryChanged', {'selection': this.createSelectionObject()});
                 }
             },
             removeAll: function(e) {
                 if (this.$.cbAll.checked) {
                     this.$.cbAll.checked=false;
                 }
-                this.fire('onCategoryChanged',{'selection':'NOTALL'});
+                this.fire('onCategoryChanged',{'selection':this.createSelectionObject()});
+            },
+            createSelectionObject : function() {
+            return {
+                ALL : this.$.cbAll.checked,
+                CON: this.$.cbCon.checked,
+                FES: this.$.cbFes.checked,
+                COM: this.$.cbCom.checked,
+                FAM: this.$.cbFam.checked
             }
+        }
+
+
 
         });
     </script>

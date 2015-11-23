@@ -38,11 +38,11 @@
 
         </style>
         <div id="eventList">
-            <div class="grid js-masonry"
+            <div id="list" class="grid js-masonry"
                  data-masonry-options='{ "itemSelector": ".grid-item"}'>
-                <mooc-event-inlist event='{"title":"Opéra de Paris","date":"02/05/2015","img":"./img/default-event.png"}' eventsize='large'></mooc-event-inlist>
-                <mooc-event-inlist event='{"title":"Opéra de Paris","date":"02/05/2015","img":"./img/default-event.png"}' eventsize='small'></mooc-event-inlist>
-                <mooc-event-inlist event='{"title":"Opéra de Paris","date":"02/05/2015","img":"./img/default-event.png"}' eventsize='medium'></mooc-event-inlist>
+                <template repeat="{{event in events}}">
+                    <mooc-event-inlist event='"+JSON.stringify(event)+"' eventsize='large'></mooc-event-inlist>
+                </template>
 
 
             </div>
@@ -64,7 +64,17 @@
                 }catch(e){
                     console.log("Error "+e+ "parsing JSON string :"+this.event);
                 }
+            },
 
+            setValues : function(values) {
+                this.events=values;
+
+                var strRes="";
+                for(var event in values) {
+                    strRes+="<mooc-event-inlist event='"+JSON.stringify(values[event])+"' eventsize='large'></mooc-event-inlist>";
+                }
+                console.log(values);
+                this.$.list.innerHTML=strRes;
             }
 
         });
