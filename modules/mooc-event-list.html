@@ -58,13 +58,6 @@
                 }
             },
 
-            ready: function() {
-                try{
-                    this.event= JSON.parse(this.event);
-                }catch(e){
-                    console.log("Error "+e+ "parsing JSON string :"+this.event);
-                }
-            },
 
             setValues : function(values) {
                 this.events=values;
@@ -73,7 +66,6 @@
                 for(var event in values) {
                     strRes+="<mooc-event-inlist event='"+JSON.stringify(values[event])+"' eventsize='large'></mooc-event-inlist>";
                 }
-                console.log(values);
                 this.$.list.innerHTML=strRes;
             }
 

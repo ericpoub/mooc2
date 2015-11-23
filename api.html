@@ -1,28 +1,43 @@
-<link rel="import" href="bower_components/polymer/polymer.html">
-<link rel="import" href="bower_components/core-ajax/core-ajax.html">
+<link rel="import" href="components/polymer/polymer.html">
+<link rel="import" href="components/iron-ajax/iron-ajax.html">
 
-<dom-module name="events-service" attributes="events">
+<dom-module name="events-service">
     <template>
         <style>
-            :host {
-                display: none;
-            }
+
         </style>
-        <core-ajax id="eventDataSource"
+        <iron-ajax id="eventDataSource"
                    url="http://api.eventful.com/json/events/search?app_key=F2LZdBTh74TBL3R9&date=Future"
                    on-response="eventsLoaded"
+                   on-error="eventsError"
+                   on-request="eventsRequested"
                    handleAs="json" >
-        </core-ajax>
+        </iron-ajax>
     </template>
     <script>
         Polymer({
             is: 'events-service',
+            properties : {
+                events: {
+                    type: Array,
+                    value: []
+                }
+            },
             ready: function() {
-                this.events = [];
+                console.log("KKKKKKKKKK");
+                console.log(this.$.eventDataSource);
+                this.$.eventDataSource.loadEvents();
             },
             eventsLoaded: function() {
                 // Make a copy of the loaded data
                 this.events = this.$.eventDataSource.response.slice(0);
+                console.log("LOADED Events nb:"+this.events.length);
+            },
+            eventsError: function(e) {
+              console.log(e);
+            },
+            eventsRequested: function(e) {
+                console.log("Events requested..");
             },
             loadEvents: function() {
                 this.$.eventDataSource.generateRequest();
