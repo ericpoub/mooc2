@@ -25,16 +25,29 @@
         </style>
         <div id="highlights">
             <div id="highlightLabel" >En ce moment...</div>
-            <div id="highlightsValues">
-                <mooc-event-highlight event='{"title":"Fashion mix","date":"02/05/2015","img":"./img/default-event.png"}'></mooc-event-highlight><br/>
-                <mooc-event-highlight event='{"title":"Exposition","date":"02/05/2015","img":"./img/default-event.png"}'"></mooc-event-highlight><br/>
-                <mooc-event-highlight event='{"title":"Exposition","date":"02/05/2015","img":"./img/default-event.png"}'></mooc-event-highlight><br/>
-            </div>
+            <div id="highlightsValues"> </div>
         </div>
     </template>
     <script>
         Polymer({
-            is: 'mooc-highlight'
+            is: 'mooc-highlight',
+            properties: {
+                events: {
+                    type: String
+                }
+            },
+
+            setValues : function(values) {
+                var strRes="";
+                for(var event in values) {
+                    var eventFullJson=this.esccapeHtml(JSON.stringify(values[event]));
+                    strRes+="  <mooc-event-highlight event='"+eventFullJson+"'></mooc-event-highlight><br/>";
+                }
+                this.$.highlightsValues.innerHTML=strRes;
+            },
+            esccapeHtml: function(str) {
+                return str.replace("\\", " ");
+            }
         });
     </script>
 </dom-module>

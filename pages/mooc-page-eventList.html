@@ -5,17 +5,22 @@
 <link rel="import" href="../modules/mooc-highlight.html">
 <link rel="import" href="../modules/mooc-event-list.html">
 
+<!--REST calls-->
+<link rel="import" href="../api.html">
+
+
 
 <dom-module id="mooc-page-eventList">
     <template>
         <style >
 
         </style>
+        <events-api id="api"></events-api>
         <mooc-search id="searchPane"></mooc-search>
         <div class="main-page">
             <div class="left-pane">
                 <mooc-category id="category"></mooc-category>
-                <mooc-highlight></mooc-highlight>
+                <mooc-highlight id="highlight"></mooc-highlight>
             </div>
             <div class="center-pane">
                 <mooc-event-list id="eventList"></mooc-event-list>
@@ -27,6 +32,13 @@
             is: 'mooc-page-eventList',
             ready : function() {
                 var that=this;
+                this.$.api.addEventListener('onSuccess', function(event) {
+                    that.ALL_EVENTS = that.consolidateEvents(event.detail.eventsFull);
+                    that.$.eventList.setValues(that.ALL_EVENTS);
+                    that.$.highlight.setValues(that.findEvents(['E0-001-078953426-3','E0-001-088571106-5','E0-001-087698129-1','E0-001-088210921-4'],that.ALL_EVENTS));
+
+
+                });
                 this.$.category.addEventListener('onCategoryChanged', function(event) {
                     that.$.eventList.setValues(that.filterEvents(event.detail.selection,that.$.searchPane.criteria));
                 });
@@ -34,8 +46,67 @@
                     that.$.eventList.setValues(that.filterEvents(that.$.category.createSelectionObject(),that.$.searchPane.criteria));
                 });
 
+
+
                 //set all events on display
-                this.$.eventList.setValues(this.ALL_EVENTS);
+                this.$.api.loadEvents()
+            },
+            findEvents: function(eventIds, fullList) {
+                var res= [];
+                for (var eventId in eventIds) {
+                    var id = eventIds[eventId];
+                    for (var eventNb in fullList) {
+                        var event = fullList[eventNb];
+                        if (event.id && event.id===id) {
+                            res.push(event);
+                        }
+                    }
+                }
+                return res;
+            },
+
+            consolidateEvents : function(eventList) {
+                var res= [];
+                for (var eventIndex in eventList ) {//eventList ) {
+                   var eventFull=eventList [eventIndex];
+                    if (this.consolidateEvent(eventFull)) {
+                        res.push(eventFull);
+                    }
+                }
+                return res;
+
+            },
+            consolidateEvent: function(eventFull) {
+                if( ! eventFull.title || 0 === eventFull.title.length ) {
+                    eventFull["title"]="NOT DEFINED";
+                    console.log("TITLE UNDEFINED");
+                    return false;
+                }
+
+                if( ! eventFull.start_time || ! eventFull.start_time instanceof Date ) {
+                    eventFull["date"]="NOT DEFINED";
+                    console.log("date UNDEFINED");
+                    return false;
+                }
+                else {
+                    eventFull["date"]=eventFull.start_time;
+                }
+                if( !eventFull.image || ! eventFull.image.block200.url) {
+                    eventFull["img"]="tbd";
+                    console.log("img UNDEFINED");
+                    return false;
+                }
+                else {
+                    eventFull["img"]=eventFull.image.block200.url;
+                }
+                if (!eventFull["id"]) {
+                    eventFull["eventId"]="UNKNOWN ID";
+                }
+                else {
+                    eventFull["eventId"]=eventFull["id"];
+                }
+                return true;
+
             },
 
             filterEvents: function(categories,searchCriteria) {

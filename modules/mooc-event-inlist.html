@@ -11,6 +11,7 @@
                 float:left;
                 clear:none;
                 overflow:hidden;
+                padding: 10px 10px 10px 10px;
             }
             .large {
                 font-size: 2.3em;
@@ -23,8 +24,8 @@
             }
             .medium {
                 font-size: 1.5em;
-                width:200px;
-                height:200px;
+                width:300px;
+                height:300px;
             }
 
             .medium  #eventDate {
@@ -49,18 +50,20 @@
                 display:block;
                 position:absolute;
                 color:white;
-                width:100%;
+                background: rgb(0,0,0); /*fallback color*/
+                background: rgba(0,0,0,0.4);
+                width:94%;
                 top:5%;
-                left:5%;
+                left:10px;
                 z-index:2;
             }
 
         </style>
         <div id="eventInList" class="[[eventSize]]">
-            <div id="eventImg" ><img id="image" class="[[eventSize]]" src="[[event.img]]"/></div>
+            <div id="eventImg" ><img id="image" class="[[eventSize]]" src="[[eventfull.img]]" alt="[[eventfull.eventId]]"/></div>
             <div id="eventDescription">
-                <div id="eventLabel" >[[event.title]]</div>
-                <div id="eventDate">[[event.date]]</div>
+                <div id="eventLabel" >[[eventfull.title]]</div>
+                <div id="eventDate">[[eventfull.date]]</div>
             </div>
         </div>
     </template>
@@ -69,7 +72,7 @@
             is: 'mooc-event-inlist',
 
             properties: {
-                event: {
+                eventfull: {
                     type: String
                 },
                 eventsize: {
@@ -79,15 +82,18 @@
 
             ready: function() {
                 try{
-                    this.event= JSON.parse(this.event);
+                    var decodedEvent = JSON.parse(this.eventfull);
+                    this.eventfull=decodedEvent;
                 }catch(e){
-                    console.log("Error "+e+ "parsing JSON string :"+this.event);
+                    //console.log("Error "+e+ "parsing JSON string :"+this.eventfull);
                 }
 
                 this.$.eventInList.classList.add(this.eventsize);
                 this.$.image.classList.add(this.eventsize);
 
-            }
+            },
+
+
 
         });
     </script>

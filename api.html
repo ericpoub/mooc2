@@ -1,13 +1,14 @@
 <link rel="import" href="components/polymer/polymer.html">
 <link rel="import" href="components/iron-ajax/iron-ajax.html">
 
-<dom-module name="events-service">
+<dom-module name="events-api">
     <template>
         <style>
 
         </style>
+        <!-- issues from : http://api.eventful.com/json/events/search?app_key=F2LZdBTh74TBL3R9&date=Future&location=France&page_size=1000&mature=safe -->
         <iron-ajax id="eventDataSource"
-                   url="http://api.eventful.com/json/events/search?app_key=F2LZdBTh74TBL3R9&date=Future"
+                   url="http://localhost:63342/mooc2/data/eventsBig.json"
                    on-response="eventsLoaded"
                    on-error="eventsError"
                    on-request="eventsRequested"
@@ -16,22 +17,19 @@
     </template>
     <script>
         Polymer({
-            is: 'events-service',
+            is: 'events-api',
             properties : {
-                events: {
+                eventsFull: {
                     type: Array,
                     value: []
                 }
             },
-            ready: function() {
-                console.log("KKKKKKKKKK");
-                console.log(this.$.eventDataSource);
-                this.$.eventDataSource.loadEvents();
-            },
-            eventsLoaded: function() {
+
+            eventsLoaded: function(e) {
                 // Make a copy of the loaded data
-                this.events = this.$.eventDataSource.response.slice(0);
-                console.log("LOADED Events nb:"+this.events.length);
+                this.eventsFull = e.detail.response.event;
+                console.log("LOADED Events nb:"+this.eventsFull.length);
+                this.fire("onSuccess",{'eventsFull':this.eventsFull});
             },
             eventsError: function(e) {
               console.log(e);
