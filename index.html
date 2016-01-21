@@ -6,6 +6,9 @@
     <!--CSS-->
     <link rel="stylesheet" type="text/css" href="css/index.css">
 
+    <!--JS-->
+    <script src="js/mooc.js" ></script>
+
     <!--Polymer-->
     <script src="components/webcomponentsjs/webcomponents-lite.js"></script>
     <link rel="import" href="components/polymer/polymer.html">
@@ -27,9 +30,8 @@
 
 
 
-    <!--Routing more-route-->
-    <link rel="import" href="components/more-routing/more-route-selector.html">
-    <link rel="import" href="routes.html">
+    <!--Routing app-route-->
+    <link rel="import" href="components/app-router/app-router.html">
 
 
 
@@ -37,28 +39,12 @@
 </head>
 <body >
     <mooc-header></mooc-header>
-    <mooc-page-header showPrevious="true" >Liste des événements</mooc-page-header>
 
-    <mooc-page-eventList>
-    </mooc-page-eventList>
-
-
-
-    <!--
-    <more-route-selector id="mainPageSelector">
-        <iron-pages>
-            <section route="/" >
-               index
-            </section>
-            <section route="home" >
-               <mooc-page-eventList></mooc-page-eventList>
-            </section>
-            <section route="eventDetails" >
-              <mooc-page-eventDetails></mooc-page-eventDetails>
-            </section>
-        </iron-pages>
-    </more-route-selector>
--->
+    <app-router>
+        <app-route path="/" import="pages/mooc-page-eventList.html" ></app-route>
+        <app-route path="/details/:eventId" import="pages/mooc-page-eventDetails.html" ></app-route>
+        <app-route path="*" import="pages/mooc-page-eventList.html" ></app-route>
+    </app-router>
 
 </body>
 </html>

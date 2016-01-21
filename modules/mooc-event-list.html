@@ -40,10 +40,7 @@
         <div id="eventList">
             <div id="list" class="grid js-masonry"
                  data-masonry-options='{ "itemSelector": ".grid-item"}'>
-                <template repeat="{{event in events}}">
-                    <mooc-event-inlist eventfull='"+JSON.stringify(event)+"' eventsize='large'></mooc-event-inlist>
-                </template>
-
+               <!-- will be templated via setValues() -->
 
             </div>
         </div>

@@ -59,6 +59,7 @@
             }
 
         </style>
+        <a href$="{{makeURL(eventfull.eventId)}}" >
         <div id="eventInList" class="[[eventSize]]">
             <div id="eventImg" ><img id="image" class="[[eventSize]]" src="[[eventfull.img]]" alt="[[eventfull.eventId]]"/></div>
             <div id="eventDescription">
@@ -66,15 +67,13 @@
                 <div id="eventDate">[[eventfull.date]]</div>
             </div>
         </div>
+        </a>
     </template>
     <script>
         Polymer({
             is: 'mooc-event-inlist',
 
             properties: {
-                eventfull: {
-                    type: String
-                },
                 eventsize: {
                     type: String
                 }
@@ -93,7 +92,9 @@
 
             },
 
-
+            makeURL: function(eventId) {
+                return MOOC.makeDetailURL(eventId);
+            },
 
         });
     </script>

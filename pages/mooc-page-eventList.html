@@ -16,6 +16,8 @@
 
         </style>
         <events-api id="api"></events-api>
+
+        <mooc-page-header >Liste des événements</mooc-page-header>
         <mooc-search id="searchPane"></mooc-search>
         <div class="main-page">
             <div class="left-pane">
@@ -33,11 +35,9 @@
             ready : function() {
                 var that=this;
                 this.$.api.addEventListener('onSuccess', function(event) {
-                    that.ALL_EVENTS = that.consolidateEvents(event.detail.eventsFull);
+                    that.ALL_EVENTS = that.consolidateEvents(event.detail.eventsFull); //dirty
                     that.$.eventList.setValues(that.ALL_EVENTS);
-                    that.$.highlight.setValues(that.findEvents(['E0-001-078953426-3','E0-001-088571106-5','E0-001-087698129-1','E0-001-088210921-4'],that.ALL_EVENTS));
-
-
+                    that.$.highlight.setValues(MOOC.findEvents(['E0-001-088062778-9','E0-001-087310557-1','E0-001-089922074-6','E0-001-075659010-0'],that.ALL_EVENTS));
                 });
                 this.$.category.addEventListener('onCategoryChanged', function(event) {
                     that.$.eventList.setValues(that.filterEvents(event.detail.selection,that.$.searchPane.criteria));
@@ -51,62 +51,25 @@
                 //set all events on display
                 this.$.api.loadEvents()
             },
-            findEvents: function(eventIds, fullList) {
-                var res= [];
-                for (var eventId in eventIds) {
-                    var id = eventIds[eventId];
-                    for (var eventNb in fullList) {
-                        var event = fullList[eventNb];
-                        if (event.id && event.id===id) {
-                            res.push(event);
-                        }
-                    }
-                }
-                return res;
-            },
+
 
             consolidateEvents : function(eventList) {
                 var res= [];
+                var locations=[];
                 for (var eventIndex in eventList ) {//eventList ) {
                    var eventFull=eventList [eventIndex];
                     if (this.consolidateEvent(eventFull)) {
                         res.push(eventFull);
+                        locations.push(eventFull.city_name);
                     }
                 }
+                this.ALL_LOCATIONS= MOOC.uniqueAndSort(locations);
+                this.$.searchPane.setLocations(this.ALL_LOCATIONS);
                 return res;
 
             },
             consolidateEvent: function(eventFull) {
-                if( ! eventFull.title || 0 === eventFull.title.length ) {
-                    eventFull["title"]="NOT DEFINED";
-                    console.log("TITLE UNDEFINED");
-                    return false;
-                }
-
-                if( ! eventFull.start_time || ! eventFull.start_time instanceof Date ) {
-                    eventFull["date"]="NOT DEFINED";
-                    console.log("date UNDEFINED");
-                    return false;
-                }
-                else {
-                    eventFull["date"]=eventFull.start_time;
-                }
-                if( !eventFull.image || ! eventFull.image.block200.url) {
-                    eventFull["img"]="tbd";
-                    console.log("img UNDEFINED");
-                    return false;
-                }
-                else {
-                    eventFull["img"]=eventFull.image.block200.url;
-                }
-                if (!eventFull["id"]) {
-                    eventFull["eventId"]="UNKNOWN ID";
-                }
-                else {
-                    eventFull["eventId"]=eventFull["id"];
-                }
-                return true;
-
+                return MOOC.consolidateEvent(eventFull);
             },
 
             filterEvents: function(categories,searchCriteria) {
@@ -123,13 +86,14 @@
             },
 
             isEventOnCategory : function(event,category) {
-                if (! event.category ) { return category.ALL; }
+                if (!event.categories || !event.categories.category || !event.categories.category[0]) { return category.ALL; }
                 if (category.ALL) { return true;}
 
-                if (event.category == "CON" && category.CON) {return true; }
-                if (event.category == "FES" && category.FES) {return true; }
-                if (event.category == "COM" && category.COM) {return true; }
-                if (event.category == "FAM" && category.FAM) {return true; }
+                var eventCategory = event.categories.category[0];
+                if (eventCategory.id === "music" && category.CON) {return true; }
+                if (eventCategory.id === "festivals_parades" && category.FES) {return true; }
+                if (eventCategory.id === "comedy" && category.COM) {return true; }
+                if (eventCategory.id === "sports" && category.SPO) {return true; }
                 return false;
             },
             isEventOnSearch: function(event,searchCriteria) {
@@ -141,31 +105,21 @@
                 }
                 if (!ok) return false;
                 if ( searchCriteria.lieu && !(0===searchCriteria.lieu.trim().length)  ) {
-                    ok = this.match(searchCriteria.lieu,event.lieu);
+                    ok = this.match(searchCriteria.lieu,event.city_name);
                 }
                 if (!ok) return false;
                 return true;
             },
 
             match : function(subStr, mainStr) {
-                console.log("Search :"+subStr+" into "+mainStr);
                 if (!subStr || !mainStr) return false;
                 return mainStr.toLowerCase().indexOf(subStr.toLowerCase()) > -1;
             },
 
 
 
-            ALL_EVENTS : [
-                {"title":"Opéra de Paris",category:"CON", "date":"02/05/2015","img":"./img/default-event.png"},
-                {"title":"Summer Festival",category:"FES", "date":"02/05/2015","img":"./img/default-event.png"},
-                {"title":"Canteloup sort du bois",category:"COM", "date":"02/05/2015","img":"./img/default-event.png"},
-                {"title":"PETER PAN",category:"FAM", "date":"02/05/2015","img":"./img/default-event.png"},
-                {"title":"UNCATOGORIZED", "date":"02/05/2015","img":"./img/default-event.png"},
-                {"title":"UNCATOGORIZED", "date":"02/05/2015","img":"./img/default-event.png"},
-                {"title":"UNCATOGORIZED", "date":"02/05/2015","img":"./img/default-event.png"},
-                {"title":"UNCATOGORIZED", "date":"02/05/2015","img":"./img/default-event.png"}
-
-            ]
+            ALL_EVENTS : [],
+            ALL_LOCATIONS : []
 
         });
     </script>

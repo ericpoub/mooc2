@@ -3,6 +3,7 @@
 <link rel="import" href="../components/paper-input/paper-input-container.html">
 <link rel="import" href="../components/iron-input/iron-input.html">
 
+
 <dom-module id="mooc-search">
     <template>
         <style>
@@ -43,7 +44,7 @@
                 padding: 5px;
             }
 
-            #searchAction {
+            #searchAction, #searchClear  {
                 float: left;
                 border-left:100px;
                 position: relative;
@@ -61,17 +62,22 @@
         </style>
         <div id="search">
             <div id="searchLabel" >Rechercher <br/>un évènement</div>
-            <div id="searchFields">
+            <form id="searchFields" on-keydown="keyPressed">
                 <paper-input-container id="searchNom">
                     <label>Nom:</label>
-                    <input is="iron-input" bind-value="{{criteria.nom}}" >
+                    <input is="iron-input" bind-value="{{criteria.nom::input}}" >
                 </paper-input-container>
-                <paper-input-container id="searchLieu">
+                <paper-input-container id="searchLieu" >
                     <label>Lieu:</label>
-                    <input is="iron-input" bind-value="{{criteria.lieu}}" >
+                    <input is="iron-input" bind-value="{{criteria.lieu::input}}" autocomplete="on" list="locations"  >
+                    <datalist  id="locations" >
+                        <!-- will ne filled via setLocations -->
+                    </datalist>
                 </paper-input-container>
-            </div>
+
+            </form>
             <paper-icon-button id="searchAction" icon="search" on-click="search"></paper-icon-button>
+            <paper-icon-button id="searchClear" icon="clear" on-click="clear"></paper-icon-button>
         </div>
     </template>
     <script>
@@ -97,8 +103,36 @@
                 }
             },
 
+            keyPressed: function(e) {
+                e = e || window.event;
+                console.log(e);
+                if ( 13 === e.keyCode) {
+                    this.search();
+                }
+                if ( 27 === e.keyCode) {
+                    this.clear();
+                }
+
+            },
+
+            clear: function() {
+                this.criteria.nom="";
+                this.criteria.lieu="";
+                this.$.searchFields.reset(); // no clue why binding is not working
+                this.search();
+             },
+
             search: function() {
                 this.fire('onSearchChanged',this.criteria);
+            },
+
+            setLocations: function(locations) {
+                var options="";
+                for (var i in locations) {
+                    var location = locations [i];
+                    options+="<option value='"+location+"' />";
+                }
+                this.$.locations.innerHTML=options;
             }
         });
     </script>

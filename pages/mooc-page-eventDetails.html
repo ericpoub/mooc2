@@ -1,21 +1,55 @@
 <link rel="import" href="../components/polymer/polymer.html">
-<link rel="import" href="../components/iron-input/iron-input.html">
 
-<link rel="import" href="../modules/mooc-category.html">
-<link rel="import" href="../modules/mooc-highlight.html">
-<link rel="import" href="../modules/mooc-event-list.html">
+<link rel="import" href="../pages/mooc-page-header.html">
 
 
-<dom-module id="mooc-page-eventDetails">
+<dom-module id="mooc-page-eventDetails" eventId="">
     <template>
         <style >
 
         </style>
-        DETAILS
+        <mooc-page-header previous="true">Détail d'un évènement</mooc-page-header>
+        DETAILS for <span>{{eventId}}</span>
     </template>
     <script>
         Polymer({
             is: 'mooc-page-eventDetails',
+            attachedCallback: function() { // warning ready is called BFORE app-route data binding.
+                console.log("DETAILS FOR "+this.eventId);
+                this.callEvent("GET","https://api.eventful.com/rest/events/get?app_key=F2LZdBTh74TBL3R9&id=E0-001-088901443-8");
+            },
+            callEvent : function(method,url) {
+                 var xhr = new XMLHttpRequest();
+                xhr.onload = function() {
+                    var responseText = xhr.responseText;
+                    console.log("REST:"+responseText);
+                    // process the response.
+                };
+
+                xhr.onerror = function() {
+                    console.log("REST:"+' There was an error!');
+                };
+
+                    if ("withCredentials" in xhr) {
+                        // Check if the XMLHttpRequest object has a "withCredentials" property.
+                        // "withCredentials" only exists on XMLHTTPRequest2 objects.
+                    } else if (typeof XDomainRequest != "undefined") {
+                        // Otherwise, check if XDomainRequest.
+                        // XDomainRequest only exists in IE, and is IE's way of making CORS requests.
+                        xhr = new XDomainRequest();
+
+                    } else {
+                        // Otherwise, CORS is not supported by the browser.
+                        xhr = null;
+                    }
+
+                if (!xhr) {
+                    console.log("REST:"+' CORS not supported');
+                }
+
+                xhr.open(method, url);
+
+            }
         });
     </script>
 </dom-module>

@@ -40,14 +40,12 @@
             setValues : function(values) {
                 var strRes="";
                 for(var event in values) {
-                    var eventFullJson=this.esccapeHtml(JSON.stringify(values[event]));
-                    strRes+="  <mooc-event-highlight event='"+eventFullJson+"'></mooc-event-highlight><br/>";
+                    var eventFullJson=MOOC.esccapeHtml(JSON.stringify(values[event]));
+                    strRes+="<mooc-event-highlight event='"+eventFullJson+"'></mooc-event-highlight><br/>";
                 }
                 this.$.highlightsValues.innerHTML=strRes;
             },
-            esccapeHtml: function(str) {
-                return str.replace("\\", " ");
-            }
+
         });
     </script>
 </dom-module>

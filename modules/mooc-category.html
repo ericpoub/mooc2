@@ -28,7 +28,7 @@
                 <paper-checkbox id="cbCon" >Concerts</paper-checkbox><br/>
                 <paper-checkbox id="cbFes">Festivals</paper-checkbox><br/>
                 <paper-checkbox id="cbCom" >Comédie</paper-checkbox><br/>
-                <paper-checkbox id="cbFam">Famille</paper-checkbox><br/>
+                <paper-checkbox id="cbSpo">Sport</paper-checkbox><br/>
             </div>
         </div>
     </template>
@@ -45,7 +45,7 @@
                 'cbCon.tap': 'removeAll',
                 'cbFes.tap': 'removeAll',
                 'cbCom.tap': 'removeAll',
-                'cbFam.tap': 'removeAll',
+                'cbSpo.tap': 'removeAll',
             },
             properties: {
                 show: {
@@ -64,7 +64,7 @@
                     this.$.cbCon.checked=false;
                     this.$.cbFes.checked=false;
                     this.$.cbCom.checked=false;
-                    this.$.cbFam.checked=false;
+                    this.$.cbSpo.checked=false;
                     this.fire('onCategoryChanged',{'selection':this.createSelectionObject()});
                 }
                 else {
@@ -83,7 +83,7 @@
                 CON: this.$.cbCon.checked,
                 FES: this.$.cbFes.checked,
                 COM: this.$.cbCom.checked,
-                FAM: this.$.cbFam.checked
+                SPO: this.$.cbSpo.checked
             }
         }
 

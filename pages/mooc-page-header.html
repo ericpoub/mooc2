@@ -21,7 +21,7 @@
 
         </style>
         <header id="pageHeader" >
-            <paper-icon-button id="pageHeaderPrevious"  icon="chevron-left" onclick="MoreRouting.navigateTo('home');"></paper-icon-button>
+            <paper-icon-button id="pageHeaderPrevious"  icon="chevron-left" onClick="window.location.href='#/';" ></paper-icon-button>
             <span id="pageHeaderLabel" ><content></content></span>
         </header>
     </template>
@@ -29,15 +29,17 @@
         Polymer({
             is: 'mooc-page-header',
             properties: {
-                showPrevious: {
-                    type: Boolean
+                previous: {
+                    type: Boolean,
+                    value:false,
+                    reflectToAttribute: true
                 }
             },
             ready : function() {
-                if ( ! this.showPrevious) {
+                if ( ! this.previous) {
                     this.$.pageHeaderPrevious.hidden=true;
                 }
-            },
+            }
         });
     </script>
 </dom-module>
